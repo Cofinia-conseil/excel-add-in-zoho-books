@@ -1,0 +1,64 @@
+<!-- Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT License. -->
+<!-- This file shows how to design a first-run page that provides a welcome screen to the user about the features of the add-in. -->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Contoso Task Pane Add-in</title>
+    <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+    <script>
+        Office.onReady(function (info) {
+                if (info.host === Office.HostType.Excel) {
+        window.addEventListener("load", function () {
+                var hash = window.location.hash;
+                var token = null;
+
+                if (hash) {
+                    var params = new URLSearchParams(hash.substring(1));
+                    token = params.get("access_token");
+                }
+
+                if (token) {
+                    var message = JSON.stringify({ status: 'success', accessToken: token });
+                    Office.context.ui.messageParent(message);
+                } else {
+                    var message = JSON.stringify({ status: 'error' });
+                    Office.context.ui.messageParent(message);
+                }
+            });
+   }
+        });
+            </script>
+    <!-- Office JavaScript API -->
+    <script type="text/javascript" src="https://appsforoffice.microsoft.com/lib/1.1/hosted/office.js"></script>
+
+    <!-- For more information on Fluent UI, visit https://developer.microsoft.com/fluentui#/. -->
+    <link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/11.0.0/css/fabric.min.css"/>
+
+    <!-- Template styles -->
+    <link href="taskpane.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body class="ms-font-m ms-welcome ms-Fabric">
+    <h1>Zoho Books Importer</h1>
+   
+    <form id="importFromZoho">
+    <div id="import">
+        <label for="datePickerFrom">Choose a from Date:</label>
+        <input type="date" id="datePickerFrom" name="datePickerFrom">
+        <br>
+        <label for="datePickerTo">Choose a to Date:</label>
+        <input type="date" id="datePickerTo" name="datePickerTo">
+        <br>
+        <button id="importF">Import</button>
+    </div>
+    </form>
+
+    
+</body>
+
+</html>

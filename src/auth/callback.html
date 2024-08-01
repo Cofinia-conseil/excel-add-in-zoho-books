@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Callback</title>
+    <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+    <script>
+          Office.onReady(function () {
+        window.addEventListener("load", function() {
+            var hash = window.location.hash;
+            var token = null;
+
+            if (hash) {
+                var params = new URLSearchParams(hash.substring(1));
+                token = params.get("access_token");
+            }
+
+            if (token) {
+                var message = JSON.stringify({ status: 'success', accessToken: token });
+                Office.context.ui.messageParent(message);
+                // Optionnel : Afficher un message ou effectuer une action avant de fermer la boîte de dialogue
+                setTimeout(function() {
+                    window.close();
+                }, 1000); // Délai avant de fermer la fenêtre
+            } else {
+                var message = JSON.stringify({ status: 'error' });
+                Office.context.ui.messageParent(message);
+                setTimeout(function() {
+                    window.close();
+                }, 1000); // Délai avant de fermer la fenêtre
+            }
+        });
+          });
+        </script>
+</head>
+<body>
+    <h1>Authentification réussie, veuillez patienter...</h1>
+</body>
+</html>
